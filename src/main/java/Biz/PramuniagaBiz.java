@@ -13,25 +13,43 @@ public class PramuniagaBiz implements IPramuniagaBiz {
         this.daftarObat = daftarObat;
         this.dataUser = dataUser;
     }
+    
+    public boolean authenticate(String username, String password) {
+    	for (String key : dataUser.keySet()) {
+        	User user = dataUser.get(key);
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ArrayList<Obat> getDaftarObat() {
+        return daftarObat;
+    }
+
+    public HashMap<String, User> getUsers() {
+        return dataUser;
+    }
 
     @Override
     public void initializeAdmin() {
-    	dataUser.put("Admin", new Pramuniaga("yanto", "L", "08123456789", 23, "awikwok123"));
+    	dataUser.put("0812-3456-7890", new Pramuniaga("yanto", "L", "0812-3456-7890", 23, "awikwok123"));
     }
 
     @Override
     public void initializeObat() {
     	daftarObat.add(new Kapsul("obat1", "Antibiotik", 20000, 30));
-    	daftarObat.add(new Tablet("obat2", "Antibiotik", 20000, 10));
-    	daftarObat.add(new Sirup("obat3", "Antibiotik", 20000, 30));
+    	daftarObat.add(new Tablet("obat2", "Antibiotik", 30500, 10));
+    	daftarObat.add(new Sirup("obat3", "Antibiotik", 12000, 20));
     }
 
     @Override
     public void printAllPelanggan() {
     	int index = 1;
         System.out.println("------------------- Informasi Pelanggan -------------------");
-        for (String murid : dataUser.keySet()) {
-    		User pelanggan = dataUser.get(murid);
+        for (String key : dataUser.keySet()) {
+    		User pelanggan = dataUser.get(key);
     		
     		System.out.print((index++) + ". ");
     		System.out.print("Nama: " + pelanggan.getUsername() + "\t");
@@ -45,29 +63,8 @@ public class PramuniagaBiz implements IPramuniagaBiz {
 
     @Override
     public void deletePelanggan(String noTelp) {
-    	String Username = null;
-    	
-    	for (String key : dataUser.keySet()) {
-			User user = dataUser.get(key);
-			
-			if (user instanceof Pelanggan && user.getNoTelp().equals(noTelp)) {
-	            Username = user.getUsername();
-	            break;
-	        }
-    	}
-    	
-    	if (Username != null) {
-            dataUser.remove(Username);
-            System.out.println("Pelanggan dengan no. telepon \"" + noTelp + "\" berhasil dihapus.");
-        } else {
-            System.out.println("Pelanggan dengan no. telepon \"" + noTelp + "\" tidak ditemukan.");
-        }
+    	dataUser.remove(noTelp);
     }
-
-//    @Override
-//    public int getPelangganNumber() {
-//    	return dataUser.size();
-//    }
 
     @Override
     public void printAllObat() {

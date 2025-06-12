@@ -8,9 +8,7 @@ public interface IPramuniagaBiz {
 	
 	public void printAllPelanggan();
 	
-	public void deletePelanggan(String username);
-	
-//    public int getPelangganNumber();
+	public void deletePelanggan(String noTelp);
     
     public void initializeObat();
     
